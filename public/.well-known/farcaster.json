@@ -1,13 +1,12 @@
 {
     "accountAssociation": {
-      "header": "eyJmaWQiOjEsInR5cGUiOiJjdXN0b2R5IiwiZSI6IjE3MzQ0NzE0NDUifQ",
-      "payload": "eyJkb21haW4iOiJmYXJtaXgtbWluaS1hcHAudmVyY2VsLmFwcCJ9",
-      "signature": "MHhiYWQwYjk5YjYzYzM2YWVmNzZhYzQ5ZDc4YTVhZDc4YTVhZDc4YTVhZDc4YTVhZDc4YTVhZDc4YTVhZDc4YTU"
+        "header": "eyJmaWQiOjUzMjM2OCwidHlwZSI6ImN1c3RvZHkiLCJrZXkiOiIweDQ0MjY2NDBFOWU0YzcxQzc4MEU0MWJFZjI5Qzg0MEFGN2IwN0Y1RWYifQ",
+        "payload": "eyJkb21haW4iOiJmYXJtaXgtbWluaS1hcHAudmVyY2VsLmFwcCJ9",
+        "signature": "MHhmZjUxYmE0M2RjODJmN2Y2YzM2NWM0NDA2NTczNDZjZGIwYWY0ZjY5ZWIxM2RhZmM1OWJmMzlmMWNmZDdmZDhiNTdlMjIwOTcyMjM1NDkyOGI0MjkyODMyYjBjZjk0N2VlZDVkYjE1NWE5YTRkMGZhYjQ2Yzc5Mzk1YTMyOWZkNDFj"
     },
     "name": "Farmix",
     "url": "https://farmix-mini-app.vercel.app",
     "description": "Analyze Farcaster social compatibility",
     "imageUrl": "https://farmix-mini-app.vercel.app/icon.png",
     "version": "0.1.0"
-  }
-  
+}
