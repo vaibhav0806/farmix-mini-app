@@ -131,6 +131,8 @@ export default function Farmix() {
             <h1 className="text-2xl font-bold text-gray-900 mb-2">Farmix</h1>
             <p className="text-gray-600">Connect your Farcaster account to discover social compatibility</p>
           </div>
+          {/* Add the login button here */}
+          <WalletConnector />
         </div>
       </div>
     );
@@ -147,6 +149,8 @@ export default function Farmix() {
             <h1 className="text-2xl font-bold text-gray-900 mb-2">Farmix</h1>
             <p className="text-gray-600">Please link your Farcaster account to continue</p>
           </div>
+          {/* Keep the logout button here too in case user is authenticated but needs to reconnect */}
+          <WalletConnector />
         </div>
       </div>
     );
@@ -155,7 +159,7 @@ export default function Farmix() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-50 to-pink-50 p-4">
       <div className="max-w-4xl mx-auto">
-        {/* Add the wallet connector at the top */}
+        {/* Keep the wallet connector at the top for authenticated users */}
         <div className="flex justify-between items-center mb-8">
           <h1 className="text-3xl font-bold text-gray-900">Farmix</h1>
           <WalletConnector />
