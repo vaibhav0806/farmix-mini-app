@@ -8,6 +8,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { Search, Users, Heart, Loader2, Network, ArrowRight, CheckCircle2 } from "lucide-react";
+import WalletConnector from "./wallet-connector";
 import {
   getUserByUsername,
   getUserFollowers,
@@ -152,8 +153,14 @@ export default function Farmix() {
   }
 
   return (
-    <div className="min-h-screen bg-white">
-      <div className="max-w-md mx-auto">
+    <div className="min-h-screen bg-gradient-to-br from-purple-50 to-pink-50 p-4">
+      <div className="max-w-4xl mx-auto">
+        {/* Add the wallet connector at the top */}
+        <div className="flex justify-between items-center mb-8">
+          <h1 className="text-3xl font-bold text-gray-900">Farmix</h1>
+          <WalletConnector />
+        </div>
+        
         {/* Header */}
         <div className="bg-purple-600 text-white p-6 text-center">
           <div className="flex items-center justify-center space-x-3 mb-3">
