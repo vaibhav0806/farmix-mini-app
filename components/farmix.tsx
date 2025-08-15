@@ -7,7 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
-import { Search, Users, Heart, Loader2, Network, GitBranch, CheckCircle } from "lucide-react";
+import { Search, Users, Heart, Loader2, Network, ArrowRight, CheckCircle2 } from "lucide-react";
 import {
   getUserByUsername,
   getUserFollowers,
@@ -51,7 +51,6 @@ export default function Farmix() {
     setLoadingStep("Finding user...");
 
     try {
-      // Get target user by username
       const targetUser = await getUserByUsername(username.trim());
       if (!targetUser) {
         setError("User not found. Please check the username and try again.");
@@ -59,12 +58,9 @@ export default function Farmix() {
         return;
       }
 
-      // Get logged-in user's FID from Privy
       const loggedInUserFid = farcasterAccount.fid;
+      setLoadingStep("Analyzing connections...");
 
-      setLoadingStep("Fetching social connections... This may take a moment for users with many followers.");
-
-      // Fetch social data for both users with higher limits
       const [
         userFollowers,
         userFollowing,
@@ -79,7 +75,6 @@ export default function Farmix() {
 
       setLoadingStep("Calculating compatibility...");
 
-      // Calculate compatibility
       const compatibility = calculateCompatibility(
         userFollowers,
         userFollowing,
@@ -101,257 +96,231 @@ export default function Farmix() {
   };
 
   const getCompatibilityMessage = (score: number) => {
-    if (score >= 80) return "Perfect Match";
+    if (score >= 80) return "Perfect Match!";
     if (score >= 60) return "Great Compatibility";
-    if (score >= 40) return "Good Match";
-    if (score >= 20) return "Some Common Ground";
+    if (score >= 40) return "Good Connection";
+    if (score >= 20) return "Some Overlap";
     return "Different Circles";
   };
 
-  const getCompatibilityColor = (score: number) => {
+  const getScoreColor = (score: number) => {
     if (score >= 80) return "text-green-600";
-    if (score >= 60) return "text-blue-600";
-    if (score >= 40) return "text-purple-600";
+    if (score >= 60) return "text-purple-600";
+    if (score >= 40) return "text-blue-600";
     if (score >= 20) return "text-orange-600";
     return "text-gray-500";
   };
 
+  const getScoreBgColor = (score: number) => {
+    if (score >= 80) return "bg-green-50";
+    if (score >= 60) return "bg-purple-50";
+    if (score >= 40) return "bg-blue-50";
+    if (score >= 20) return "bg-orange-50";
+    return "bg-gray-50";
+  };
+
   if (!authenticated) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
-        <Card className="w-full max-w-md mx-auto">
-          <CardHeader className="text-center border-b">
-            <div className="flex items-center justify-center space-x-2 mb-2">
-              <Network className="h-6 w-6 text-purple-600" />
-              <CardTitle className="text-2xl font-semibold text-gray-900">Farmix</CardTitle>
-            </div>
-            <p className="text-gray-600">Social Compatibility Analysis</p>
-          </CardHeader>
-          <CardContent className="pt-6">
-            <p className="text-center text-gray-600">
-              Connect your Farcaster account to analyze social compatibility.
-            </p>
-          </CardContent>
-        </Card>
+      <div className="min-h-screen bg-white flex flex-col items-center justify-center p-4">
+        <div className="text-center space-y-6 max-w-sm">
+          <div className="w-16 h-16 bg-purple-600 rounded-2xl flex items-center justify-center mx-auto">
+            <Network className="h-8 w-8 text-white" />
+          </div>
+          <div>
+            <h1 className="text-2xl font-bold text-gray-900 mb-2">Farmix</h1>
+            <p className="text-gray-600">Connect your Farcaster account to discover social compatibility</p>
+          </div>
+        </div>
       </div>
     );
   }
 
   if (!farcasterAccount) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
-        <Card className="w-full max-w-md mx-auto">
-          <CardHeader className="text-center border-b">
-            <div className="flex items-center justify-center space-x-2 mb-2">
-              <Network className="h-6 w-6 text-purple-600" />
-              <CardTitle className="text-2xl font-semibold text-gray-900">Farmix</CardTitle>
-            </div>
-          </CardHeader>
-          <CardContent className="pt-6">
-            <p className="text-center text-gray-600">
-              Please link your Farcaster account to continue.
-            </p>
-          </CardContent>
-        </Card>
+      <div className="min-h-screen bg-white flex flex-col items-center justify-center p-4">
+        <div className="text-center space-y-6 max-w-sm">
+          <div className="w-16 h-16 bg-purple-600 rounded-2xl flex items-center justify-center mx-auto">
+            <Network className="h-8 w-8 text-white" />
+          </div>
+          <div>
+            <h1 className="text-2xl font-bold text-gray-900 mb-2">Farmix</h1>
+            <p className="text-gray-600">Please link your Farcaster account to continue</p>
+          </div>
+        </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <div className="max-w-4xl mx-auto p-6 space-y-6">
+    <div className="min-h-screen bg-white">
+      <div className="max-w-md mx-auto">
         {/* Header */}
-        <Card>
-          <CardHeader className="text-center border-b">
-            <div className="flex items-center justify-center space-x-3 mb-3">
-              <div className="p-2 bg-purple-600 rounded-lg">
-                <Network className="h-6 w-6 text-white" />
+        <div className="bg-purple-600 text-white p-6 text-center">
+          <div className="flex items-center justify-center space-x-3 mb-3">
+            <Network className="h-8 w-8" />
+            <h1 className="text-2xl font-bold">Farmix</h1>
+          </div>
+          <p className="text-purple-100">Social Compatibility</p>
+        </div>
+
+        {/* User Status */}
+        <div className="bg-gray-50 px-6 py-4 border-b">
+          <div className="flex items-center space-x-3">
+            <img 
+              src={farcasterAccount.pfp || "/default-avatar.png"} 
+              alt="Your avatar"
+              className="w-10 h-10 rounded-full"
+            />
+            <div className="flex-1">
+              <p className="font-medium text-gray-900">@{farcasterAccount.username}</p>
+              <div className="flex items-center space-x-2">
+                <CheckCircle2 className="h-4 w-4 text-green-500" />
+                <span className="text-sm text-green-600">Connected</span>
               </div>
-              <CardTitle className="text-3xl font-semibold text-gray-900">Farmix</CardTitle>
             </div>
-            <p className="text-gray-600 text-lg">
-              Analyze Farcaster social compatibility
-            </p>
-          </CardHeader>
-          <CardContent className="pt-4">
-            <div className="flex items-center justify-center space-x-3">
-              <img 
-                src={farcasterAccount.pfp || "/default-avatar.png"} 
-                alt="Your avatar"
-                className="w-8 h-8 rounded-full"
-              />
-              <span className="text-gray-700 font-medium">@{farcasterAccount.username}</span>
-              <Badge variant="outline" className="text-purple-600 border-purple-200">
-                <CheckCircle className="h-3 w-3 mr-1" />
-                Connected
-              </Badge>
-            </div>
-          </CardContent>
-        </Card>
+          </div>
+        </div>
 
         {/* Search */}
-        <Card>
-          <CardContent className="pt-6">
+        <div className="p-6 space-y-4">
+          <div>
+            <label className="text-sm font-medium text-gray-700 mb-2 block">
+              Enter Farcaster username
+            </label>
             <div className="flex space-x-3">
-              <Input
-                placeholder="Enter Farcaster username (without @)"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
-                onKeyPress={(e) => e.key === "Enter" && analyzeCompatibility()}
-                disabled={loading}
-                className="text-lg h-12 border-gray-300 focus:border-purple-500 focus:ring-purple-500"
-              />
+              <div className="flex-1 relative">
+                <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">@</span>
+                <Input
+                  placeholder="username"
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
+                  onKeyPress={(e) => e.key === "Enter" && analyzeCompatibility()}
+                  disabled={loading}
+                  className="pl-8 h-12 text-lg border-gray-300 focus:border-purple-500 focus:ring-purple-500"
+                />
+              </div>
               <Button 
                 onClick={analyzeCompatibility} 
                 disabled={loading || !username.trim()}
-                className="h-12 px-6 bg-purple-600 hover:bg-purple-700 text-white"
+                className="h-12 w-12 bg-purple-600 hover:bg-purple-700 text-white p-0"
               >
                 {loading ? (
                   <Loader2 className="h-5 w-5 animate-spin" />
                 ) : (
-                  <>
-                    <Search className="h-5 w-5 mr-2" />
-                    Analyze
-                  </>
+                  <Search className="h-5 w-5" />
                 )}
               </Button>
             </div>
-            {loading && loadingStep && (
-              <div className="mt-4 flex items-center justify-center space-x-2 text-purple-600">
-                <Loader2 className="h-4 w-4 animate-spin" />
-                <span className="text-sm">{loadingStep}</span>
-              </div>
-            )}
-          </CardContent>
-        </Card>
+          </div>
 
-        {/* Error */}
-        {error && (
-          <Card className="border-red-200">
-            <CardContent className="pt-6">
-              <div className="bg-red-50 border border-red-200 rounded-lg p-4">
-                <p className="text-red-700 text-center">{error}</p>
+          {loading && loadingStep && (
+            <div className="bg-purple-50 border border-purple-200 rounded-lg p-4">
+              <div className="flex items-center space-x-3">
+                <Loader2 className="h-5 w-5 text-purple-600 animate-spin" />
+                <span className="text-purple-700 font-medium">{loadingStep}</span>
               </div>
-            </CardContent>
-          </Card>
-        )}
+            </div>
+          )}
+
+          {error && (
+            <div className="bg-red-50 border border-red-200 rounded-lg p-4">
+              <p className="text-red-700 text-center">{error}</p>
+            </div>
+          )}
+        </div>
 
         {/* Results */}
         {result && (
-          <div className="space-y-6">
-            {/* Compatibility Score */}
-            <Card>
-              <CardHeader className="border-b">
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center space-x-4">
+          <div className="space-y-4 pb-6">
+            {/* User Profile & Score */}
+            <div className="mx-6">
+              <Card className="border-0 shadow-lg">
+                <CardContent className="p-6">
+                  <div className="text-center space-y-4">
                     <img 
                       src={result.targetUser.pfpUrl || "/default-avatar.png"} 
                       alt={result.targetUser.displayName}
-                      className="w-16 h-16 rounded-full border-2 border-gray-200"
+                      className="w-20 h-20 rounded-full mx-auto border-4 border-white shadow-lg"
                     />
                     <div>
-                      <h3 className="text-xl font-semibold text-gray-900">{result.targetUser.displayName}</h3>
+                      <h3 className="text-xl font-bold text-gray-900">{result.targetUser.displayName}</h3>
                       <p className="text-purple-600 font-medium">@{result.targetUser.username}</p>
-                      <div className="flex items-center space-x-4 mt-1 text-sm text-gray-500">
-                        <span>{result.targetUser.followerCount.toLocaleString()} followers</span>
-                        <span>{result.targetUser.followingCount.toLocaleString()} following</span>
+                    </div>
+                    
+                    {/* Compatibility Score */}
+                    <div className={`${getScoreBgColor(result.score)} rounded-2xl p-6`}>
+                      <div className={`text-5xl font-bold ${getScoreColor(result.score)} mb-2`}>
+                        {result.score}%
                       </div>
+                      <div className={`font-semibold ${getScoreColor(result.score)} mb-3`}>
+                        {getCompatibilityMessage(result.score)}
+                      </div>
+                      <Progress value={result.score} className="h-2" />
                     </div>
                   </div>
-                  <div className="text-center">
-                    <div className="text-4xl font-bold text-purple-600 mb-1">
-                      {result.score}%
-                    </div>
-                    <Badge variant="outline" className="text-gray-600">
-                      Compatibility
-                    </Badge>
-                  </div>
-                </div>
-              </CardHeader>
-              <CardContent className="pt-6">
-                <div className="space-y-4">
-                  <div className="flex justify-between items-center">
-                    <span className={`text-lg font-semibold ${getCompatibilityColor(result.score)}`}>
-                      {getCompatibilityMessage(result.score)}
-                    </span>
-                    <Heart className="h-5 w-5 text-red-500" />
-                  </div>
-                  <Progress value={result.score} className="h-3" />
-                  <div className="text-sm text-gray-500 text-center">
-                    Based on {(result.details.totalUserConnections + result.details.totalTargetConnections).toLocaleString()} total connections
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
+                </CardContent>
+              </Card>
+            </div>
 
-            {/* Detailed Breakdown */}
-            <Card>
-              <CardHeader className="border-b">
-                <CardTitle className="text-lg text-gray-900 flex items-center">
-                  <Users className="h-5 w-5 mr-2 text-purple-600" />
-                  Connection Analysis
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="pt-6">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div className="bg-blue-50 border border-blue-200 rounded-lg p-6">
-                    <div className="flex items-center space-x-3 mb-3">
-                      <div className="p-2 bg-blue-600 rounded-lg">
-                        <Users className="h-4 w-4 text-white" />
-                      </div>
-                      <span className="font-semibold text-gray-900">Common Following</span>
-                    </div>
-                    <p className="text-3xl font-bold text-blue-600 mb-1">
-                      {result.commonFollowing.length}
-                    </p>
-                    <p className="text-sm text-gray-600">
-                      {result.details.followingOverlap}% overlap
-                    </p>
+            {/* Connection Stats */}
+            <div className="mx-6 grid grid-cols-2 gap-3">
+              <Card className="border-0 shadow-md">
+                <CardContent className="p-4 text-center">
+                  <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-3">
+                    <Users className="h-5 w-5 text-blue-600" />
                   </div>
-                  <div className="bg-green-50 border border-green-200 rounded-lg p-6">
-                    <div className="flex items-center space-x-3 mb-3">
-                      <div className="p-2 bg-green-600 rounded-lg">
-                        <Users className="h-4 w-4 text-white" />
-                      </div>
-                      <span className="font-semibold text-gray-900">Mutual Followers</span>
-                    </div>
-                    <p className="text-3xl font-bold text-green-600 mb-1">
-                      {result.commonFollowers.length}
-                    </p>
-                    <p className="text-sm text-gray-600">
-                      {result.details.followerOverlap}% overlap
-                    </p>
+                  <div className="text-2xl font-bold text-blue-600">{result.commonFollowing.length}</div>
+                  <div className="text-sm text-gray-600">Mutual Following</div>
+                </CardContent>
+              </Card>
+              
+              <Card className="border-0 shadow-md">
+                <CardContent className="p-4 text-center">
+                  <div className="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-3">
+                    <Heart className="h-5 w-5 text-green-600" />
                   </div>
-                </div>
-              </CardContent>
-            </Card>
+                  <div className="text-2xl font-bold text-green-600">{result.commonFollowers.length}</div>
+                  <div className="text-sm text-gray-600">Mutual Followers</div>
+                </CardContent>
+              </Card>
+            </div>
 
             {/* Common Connections */}
             {(result.commonFollowing.length > 0 || result.commonFollowers.length > 0) && (
-              <Card>
-                <CardHeader className="border-b">
-                  <CardTitle className="text-lg text-gray-900 flex items-center">
-                    <GitBranch className="h-5 w-5 mr-2 text-purple-600" />
-                    Shared Connections
-                  </CardTitle>
-                </CardHeader>
-                <CardContent className="pt-6">
-                  <div className="space-y-6">
+              <div className="mx-6">
+                <Card className="border-0 shadow-md">
+                  <CardHeader className="pb-3">
+                    <CardTitle className="text-lg flex items-center">
+                      <Network className="h-5 w-5 mr-2 text-purple-600" />
+                      Shared Connections
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent className="pt-0 space-y-4">
                     {result.commonFollowing.length > 0 && (
                       <div>
-                        <h4 className="font-semibold text-gray-900 mb-3">
-                          You both follow ({result.commonFollowing.length})
-                        </h4>
+                        <div className="flex items-center justify-between mb-3">
+                          <span className="font-medium text-gray-900">You both follow</span>
+                          <Badge variant="secondary" className="bg-blue-100 text-blue-800">
+                            {result.commonFollowing.length}
+                          </Badge>
+                        </div>
                         <div className="flex flex-wrap gap-2">
-                          {result.commonFollowing.slice(0, 12).map((user) => (
-                            <Badge key={user.fid} variant="secondary" className="bg-blue-100 text-blue-800 border-blue-200">
-                              @{user.username}
-                            </Badge>
+                          {result.commonFollowing.slice(0, 6).map((user) => (
+                            <div key={user.fid} className="flex items-center space-x-2 bg-blue-50 rounded-lg px-3 py-2">
+                              <img 
+                                src={user.pfpUrl || "/default-avatar.png"} 
+                                alt={user.username}
+                                className="w-6 h-6 rounded-full"
+                              />
+                              <span className="text-sm font-medium text-blue-800">@{user.username}</span>
+                            </div>
                           ))}
-                          {result.commonFollowing.length > 12 && (
-                            <Badge variant="outline" className="border-blue-300 text-blue-600">
-                              +{result.commonFollowing.length - 12} more
-                            </Badge>
+                          {result.commonFollowing.length > 6 && (
+                            <div className="bg-blue-50 rounded-lg px-3 py-2">
+                              <span className="text-sm font-medium text-blue-600">
+                                +{result.commonFollowing.length - 6} more
+                              </span>
+                            </div>
                           )}
                         </div>
                       </div>
@@ -359,27 +328,44 @@ export default function Farmix() {
                     
                     {result.commonFollowers.length > 0 && (
                       <div>
-                        <h4 className="font-semibold text-gray-900 mb-3">
-                          Mutual followers ({result.commonFollowers.length})
-                        </h4>
+                        <div className="flex items-center justify-between mb-3">
+                          <span className="font-medium text-gray-900">Mutual followers</span>
+                          <Badge variant="secondary" className="bg-green-100 text-green-800">
+                            {result.commonFollowers.length}
+                          </Badge>
+                        </div>
                         <div className="flex flex-wrap gap-2">
-                          {result.commonFollowers.slice(0, 12).map((user) => (
-                            <Badge key={user.fid} variant="secondary" className="bg-green-100 text-green-800 border-green-200">
-                              @{user.username}
-                            </Badge>
+                          {result.commonFollowers.slice(0, 6).map((user) => (
+                            <div key={user.fid} className="flex items-center space-x-2 bg-green-50 rounded-lg px-3 py-2">
+                              <img 
+                                src={user.pfpUrl || "/default-avatar.png"} 
+                                alt={user.username}
+                                className="w-6 h-6 rounded-full"
+                              />
+                              <span className="text-sm font-medium text-green-800">@{user.username}</span>
+                            </div>
                           ))}
-                          {result.commonFollowers.length > 12 && (
-                            <Badge variant="outline" className="border-green-300 text-green-600">
-                              +{result.commonFollowers.length - 12} more
-                            </Badge>
+                          {result.commonFollowers.length > 6 && (
+                            <div className="bg-green-50 rounded-lg px-3 py-2">
+                              <span className="text-sm font-medium text-green-600">
+                                +{result.commonFollowers.length - 6} more
+                              </span>
+                            </div>
                           )}
                         </div>
                       </div>
                     )}
-                  </div>
-                </CardContent>
-              </Card>
+                  </CardContent>
+                </Card>
+              </div>
             )}
+
+            {/* Analysis Info */}
+            <div className="mx-6 bg-gray-50 rounded-lg p-4">
+              <p className="text-sm text-gray-600 text-center">
+                Analysis based on {(result.details.totalUserConnections + result.details.totalTargetConnections).toLocaleString()} total connections
+              </p>
+            </div>
           </div>
         )}
       </div>
