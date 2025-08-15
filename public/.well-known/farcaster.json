@@ -9,7 +9,7 @@
         "url": "https://farmix-mini-app.vercel.app",
         "description": "Analyze Farcaster social compatibility",
         "imageUrl": "https://farmix-mini-app.vercel.app/icon.png",
-        "version": "0.1.0",
+        "version": "next",
         "primaryCategory": "social",
         "tags": [
             "social",
@@ -26,6 +26,8 @@
         "iconUrl": "https://farmix-mini-app.vercel.app/icon.png",
         "splashImageUrl": "https://farmix-mini-app.vercel.app/splash.png",
         "webhookUrl": "https://farmix-mini-app.vercel.app/webhookurl",
-        "splashBackgroundColor": "#ffffff"
+        "splashBackgroundColor": "#ffffff",
+        "homeUrl": "https://farmix-mini-app.vercel.app",
+        "subtitle": "Analyze Farcaster social compatibility"
     }
 }
