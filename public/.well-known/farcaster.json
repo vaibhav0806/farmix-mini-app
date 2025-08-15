@@ -19,15 +19,15 @@
             "compatibility"
         ],
         "heroImageUrl": "https://farmix-mini-app.vercel.app/splash.png",
-        "tagline": "Analyze Farcaster social compatibility",
+        "tagline": "Farcaster compatibility",
         "ogTitle": "Farmix",
-        "ogDescription": "Analyze Farcaster social compatibility",
+        "ogDescription": "Farcaster compatibility",
         "ogImageUrl": "https://farmix-mini-app.vercel.app/og.png",
         "iconUrl": "https://farmix-mini-app.vercel.app/icon.png",
         "splashImageUrl": "https://farmix-mini-app.vercel.app/splash.png",
         "webhookUrl": "https://farmix-mini-app.vercel.app/webhookurl",
         "splashBackgroundColor": "#ffffff",
         "homeUrl": "https://farmix-mini-app.vercel.app",
-        "subtitle": "Analyze Farcaster social compatibility"
+        "subtitle": "Farcaster compatibility"
     }
 }
