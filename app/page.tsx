@@ -7,13 +7,13 @@ const frame = {
   version: "next",
   imageUrl: `${appUrl}/opengraph-image`,
   button: {
-    title: "Launch Frame",
+    title: "Launch Farmix",
     action: {
       type: "launch_frame",
-      name: "vibe coding starter",
+      name: "Farmix - Social Compatibility",
       url: appUrl,
       splashImageUrl: `${appUrl}/splash.png`,
-      splashBackgroundColor: "#f7f7f7",
+      splashBackgroundColor: "#7c3aed", // Farcaster purple
     },
   },
 };
@@ -22,11 +22,19 @@ export const revalidate = 300;
 
 export async function generateMetadata(): Promise<Metadata> {
   return {
-    title: "vibe-coding-starter",
+    title: "Farmix - Farcaster Social Compatibility",
+    description: "Discover your Farcaster compatibility with others based on social connections",
     openGraph: {
-      title: "vibe-coding-starter",
-      description:
-        "Starter project for Vibe Coding Farcaster Frames with Next.js",
+      title: "Farmix - Farcaster Social Compatibility",
+      description: "Analyze social compatibility on Farcaster",
+      images: [
+        {
+          url: `${appUrl}/opengraph-image`,
+          width: 1200,
+          height: 630,
+          alt: "Farmix - Social Compatibility Analyzer",
+        },
+      ],
     },
     other: {
       "fc:frame": JSON.stringify(frame),

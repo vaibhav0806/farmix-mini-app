@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import sdk from "@farcaster/frame-sdk";
+import { usePrivy } from "@privy-io/react-auth";
 
 import WalletConnector from "./wallet-connector";
 import Farmix from "./farmix";
@@ -9,17 +10,31 @@ import Farmix from "./farmix";
 export default function App() {
   const [isSDKLoaded, setIsSDKLoaded] = useState(false);
   const [farcasterUserContext, setFarcasterUserContext] = useState<any>();
+  const { ready, authenticated, login } = usePrivy();
 
   useEffect(() => {
     const load = async () => {
-      setFarcasterUserContext(await sdk.context);
-      sdk.actions.ready();
+      try {
+        const context = await sdk.context;
+        setFarcasterUserContext(context);
+        sdk.actions.ready();
+        
+        // Auto-login for frame users
+        if (ready && !authenticated && context?.user) {
+          // Frame users should auto-login
+          login();
+        }
+      } catch (error) {
+        console.log("Frame SDK not available, running in browser mode");
+        setFarcasterUserContext(null);
+      }
     };
-    if (sdk && !isSDKLoaded) {
+    
+    if (!isSDKLoaded) {
       setIsSDKLoaded(true);
       load();
     }
-  }, [isSDKLoaded]);
+  }, [isSDKLoaded, ready, authenticated, login]);
 
   return (
     <div className="min-h-screen bg-gray-50">
