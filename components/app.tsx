@@ -10,23 +10,26 @@ import Farmix from "./farmix";
 export default function App() {
   const [isSDKLoaded, setIsSDKLoaded] = useState(false);
   const [farcasterUserContext, setFarcasterUserContext] = useState<any>();
-  const { ready, authenticated, login } = usePrivy();
+  const { ready, authenticated } = usePrivy();
 
   useEffect(() => {
     const load = async () => {
       try {
         const context = await sdk.context;
         setFarcasterUserContext(context);
-        sdk.actions.ready();
         
-        // Auto-login for frame users
-        if (ready && !authenticated && context?.user) {
-          // Frame users should auto-login
-          login();
+        // Call ready when the component has loaded
+        if (ready) {
+          sdk.actions.ready({});
         }
       } catch (error) {
         console.log("Frame SDK not available, running in browser mode");
         setFarcasterUserContext(null);
+        
+        // Still call ready even if not in frame
+        if (ready) {
+          sdk.actions.ready({});
+        }
       }
     };
     
@@ -34,7 +37,14 @@ export default function App() {
       setIsSDKLoaded(true);
       load();
     }
-  }, [isSDKLoaded, ready, authenticated, login]);
+  }, [isSDKLoaded, ready]);
+
+  // Call ready again when authentication state changes
+  useEffect(() => {
+    if (ready && authenticated) {
+      sdk.actions.ready({});
+    }
+  }, [ready, authenticated]);
 
   return (
     <div className="min-h-screen bg-gray-50">

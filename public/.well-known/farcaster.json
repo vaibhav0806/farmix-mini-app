@@ -1,0 +1,13 @@
+{
+    "accountAssociation": {
+      "header": "eyJmaWQiOjEsInR5cGUiOiJjdXN0b2R5IiwiZSI6IjE3MzQ0NzE0NDUifQ",
+      "payload": "eyJkb21haW4iOiJmYXJtaXgtbWluaS1hcHAudmVyY2VsLmFwcCJ9",
+      "signature": "MHhiYWQwYjk5YjYzYzM2YWVmNzZhYzQ5ZDc4YTVhZDc4YTVhZDc4YTVhZDc4YTVhZDc4YTVhZDc4YTVhZDc4YTU"
+    },
+    "name": "Farmix",
+    "url": "https://farmix-mini-app.vercel.app",
+    "description": "Analyze Farcaster social compatibility",
+    "imageUrl": "https://farmix-mini-app.vercel.app/icon.png",
+    "version": "0.1.0"
+  }
+  
